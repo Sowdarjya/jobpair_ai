@@ -3,6 +3,7 @@ import { Roboto_Mono as FontRoboto } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const fontRoboto = FontRoboto({
   variable: "--font-roboto",
@@ -21,12 +22,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${fontRoboto.variable} font-roboto antialiased`}>
-        <Header />
-        {children}
-        <Footer />
-      </body>
-    </html>
+    <ClerkProvider appearance={{ cssLayerName: "clerk" }}>
+      <html lang="en">
+        <body className={`${fontRoboto.variable} font-roboto antialiased`}>
+          <Header />
+          {children}
+          <Footer />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
