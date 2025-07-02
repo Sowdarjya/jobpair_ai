@@ -8,7 +8,7 @@ import React from "react";
 const tools = [
   {
     name: "Resume Analyzer",
-    desc: "Chat with AI to optimize your resume",
+    desc: "Analyze your resume and get insights",
     icon: "/Analyze.png",
     path: "/dashboard/resume-analyzer",
   },
