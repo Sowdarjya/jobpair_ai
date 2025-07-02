@@ -1,3 +1,4 @@
+import CallToAction from "@/components/CallToAction";
 import Features from "@/components/Features";
 import Hero from "@/components/Hero";
 const Home = () => {
@@ -5,6 +6,7 @@ const Home = () => {
     <div className="flex items-center justify-center flex-col">
       <Hero />
       <Features />
+      <CallToAction />
     </div>
   );
 };
