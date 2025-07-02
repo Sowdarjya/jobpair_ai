@@ -1,4 +1,8 @@
+"use client";
+
 import ToolCard from "@/components/ToolCard";
+import { useUser } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 import React from "react";
 
 const tools = [
@@ -23,6 +27,12 @@ const tools = [
 ];
 
 const Dashboard = () => {
+  const { user } = useUser();
+
+  if (!user) {
+    redirect("/");
+  }
+
   return (
     <div className="min-h-screen w-full">
       <div className="my-7 w-6xl mx-auto border bg-white p-5 rounded-xl">
@@ -34,8 +44,8 @@ const Dashboard = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
           {tools.map((tool, index) => (
-            <div>
-              <ToolCard tool={tool} key={index} />
+            <div key={index}>
+              <ToolCard tool={tool} />
             </div>
           ))}
         </div>
