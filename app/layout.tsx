@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Roboto_Mono as FontRoboto } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import { ClerkProvider } from "@clerk/nextjs";
+import Footer from "@/components/Footer";
 
 const fontRoboto = FontRoboto({
   variable: "--font-roboto",
