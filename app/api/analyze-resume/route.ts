@@ -1,3 +1,4 @@
+import { analyze } from "@/lib/analyze";
 import imagekit from "@/lib/config";
 import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
 import { NextRequest } from "next/server";
@@ -8,7 +9,6 @@ export async function POST(req: NextRequest) {
 
   const loader = new WebPDFLoader(resume);
   const docs = await loader.load();
-  console.log(docs[0].pageContent);
 
   const arrayBuffer = await resume.arrayBuffer();
   const base64 = Buffer.from(arrayBuffer).toString("base64");
@@ -18,5 +18,9 @@ export async function POST(req: NextRequest) {
     fileName: resume.name,
   });
 
-  return new Response(result.url);
+  const analysis = await analyze(docs[0].pageContent);
+
+  return new Response(JSON.stringify({ analysis, url: result.url }), {
+    status: 200,
+  });
 }

@@ -6,16 +6,17 @@ import React, { useState } from "react";
 
 const ResumeAnalyzer = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       setSelectedFile(file);
-      console.log(file.name);
     }
   };
 
   const handleSubmitAndAnalyze = async (event: React.FormEvent) => {
+    setLoading(true);
     event.preventDefault();
     const formData = new FormData();
     formData.append("resume", selectedFile!);
@@ -23,7 +24,10 @@ const ResumeAnalyzer = () => {
       method: "POST",
       body: formData,
     });
-    const data = response.json();
+    const data = await response.json();
+    console.log(data);
+    setLoading(false);
+    setSelectedFile(null);
   };
 
   return (
@@ -64,13 +68,13 @@ const ResumeAnalyzer = () => {
           <Button
             className={`mt-4 w-full ${
               selectedFile
-                ? "bg-blue-600 hover:bg-blue-700 cursor-pointer"
+                ? "bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 cursor-pointer"
                 : "bg-gray-400 cursor-not-allowed"
             }`}
-            disabled={!selectedFile}
+            disabled={!selectedFile || loading}
             onClick={handleSubmitAndAnalyze}
           >
-            Analyze
+            {loading ? "Analyzing..." : "Analyze Resume"}
           </Button>
         </div>
       </div>
