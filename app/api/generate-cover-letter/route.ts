@@ -2,9 +2,12 @@ import { generateCoverLetter } from "@/lib/generateCoverLetter";
 import imagekit from "@/lib/config";
 import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
 import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
+import prisma from "@/lib/prisma";
 
 export async function POST(req: NextRequest) {
   try {
+    const { userId } = await auth();
     const formData = await req.formData();
     const resume = formData.get("resume") as File;
 
@@ -43,6 +46,24 @@ export async function POST(req: NextRequest) {
     });
 
     const coverLetter = await generateCoverLetter(llmInput);
+
+    await prisma.userHistory.create({
+      data: {
+        userId: userId!,
+        tool: "COVER_LETTER_GENERATOR",
+        input: {
+          jobTitle,
+          companyName,
+          jobDescription,
+          tone,
+          length,
+        },
+        output: {
+          coverLetter,
+          pdfUrl: result.url,
+        },
+      },
+    });
 
     return NextResponse.json(
       { coverLetter, pdfUrl: result.url },

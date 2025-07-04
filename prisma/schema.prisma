@@ -20,24 +20,26 @@ model User {
   email     String   @unique
   name      String?
   avatar    String?
+  history   userHistory[]
   createdAt DateTime @default(now())
-  resumes   Resume[]
 
   @@index([createdAt])
 }
 
-model Resume {
-  id     String @id @default(cuid())
-  userId String
-  user   User   @relation(fields: [userId], references: [clerkId], onDelete: Cascade)
+model userHistory {
+  id        String   @id @default(cuid())
+  userId    String  
+  user      User     @relation(fields: [userId], references: [clerkId], onDelete: Cascade)
+  tool      ToolType
+  input     Json
+  output    Json
+  createdAt DateTime @default(now())
 
-  title      String
-  fileUrl    String
-  parsedText String?
-  summary    String?
-  skills     String[]
-  score      Int?
-  createdAt  DateTime @default(now())
+  @@index([createdAt])
+}
 
-  @@index([userId])
+enum ToolType{
+  RESUME_ANALYZER
+  ROADMAP_GENERATOR
+  COVER_LETTER_GENERATOR
 }
