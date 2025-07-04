@@ -68,7 +68,6 @@ export default function RoadmapGenerator() {
 
         {!roadmap ? (
           <div className="max-w-2xl mx-auto space-y-6">
-            {/* Input Form */}
             <Card className="shadow-xl border-0 bg-white/80 backdrop-blur">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-xl">
@@ -133,7 +132,7 @@ export default function RoadmapGenerator() {
             </div>
           </div>
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-6 max-w-6xl mx-auto">
             <Card className="shadow-xl border-0 bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
               <CardContent className="p-8">
                 <div className="flex justify-between items-start mb-4">

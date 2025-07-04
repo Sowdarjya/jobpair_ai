@@ -6,7 +6,5 @@ export async function POST(req: NextRequest) {
 
   const generatedRoadmap = await generateRoadmap(userInput);
 
-  console.log(generatedRoadmap);
-
   return new NextResponse(JSON.stringify(generatedRoadmap), { status: 200 });
 }
