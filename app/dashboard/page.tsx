@@ -2,7 +2,7 @@
 
 import ToolCard from "@/components/ToolCard";
 import { useUser } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Clock, FileText, Map, Mail } from "lucide-react";
 
@@ -37,6 +37,7 @@ interface HistoryItem {
 
 const Dashboard = () => {
   const { user } = useUser();
+  const router = useRouter();
   const [recentHistory, setRecentHistory] = useState<HistoryItem[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -66,6 +67,10 @@ const Dashboard = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleHistoryClick = (historyId: string) => {
+    router.push(`/dashboard/history/${historyId}`);
   };
 
   const getToolIcon = (tool: string) => {
@@ -158,7 +163,8 @@ const Dashboard = () => {
               {recentHistory.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:shadow-md transition-shadow"
+                  onClick={() => handleHistoryClick(item.id)}
+                  className="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:shadow-md hover:border-blue-300 transition-all cursor-pointer"
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3">
