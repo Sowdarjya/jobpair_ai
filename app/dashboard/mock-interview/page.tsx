@@ -155,17 +155,6 @@ const MockInterview = () => {
     }
   };
 
-  const resetForm = () => {
-    setFormData({
-      jobRole: "",
-      jobDescription: "",
-      level: "",
-      type: "",
-    });
-    setCreatedInterview(null);
-    setError(null);
-  };
-
   if (createdInterview) {
     return (
       <div className="container mx-auto p-6 max-w-2xl">
@@ -220,9 +209,6 @@ const MockInterview = () => {
               >
                 <Video className="h-4 w-4 mr-2" />
                 Start Interview
-              </Button>
-              <Button onClick={resetForm} variant="outline" size="lg">
-                Create Another
               </Button>
             </div>
           </CardContent>
