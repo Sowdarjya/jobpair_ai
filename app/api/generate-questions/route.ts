@@ -4,8 +4,8 @@ import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const { jobRole, jobDescription, level, type, userId } = await req.json();
-  //   const { userId } = await auth();
+  const { jobRole, jobDescription, level, type } = await req.json();
+  const { userId } = await auth();
 
   try {
     const questions = await generateQuestions(
@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
       type
     );
 
-    await prisma.interview.create({
+    const interview = await prisma.interview.create({
       data: {
         userId: userId!,
         jobRole: jobRole,
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return new NextResponse(JSON.stringify(questions), { status: 200 });
+    return new NextResponse(JSON.stringify(interview), { status: 200 });
   } catch (error) {
     console.log(error);
     return new NextResponse(JSON.stringify(error), { status: 500 });
