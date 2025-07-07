@@ -4,7 +4,7 @@ import ToolCard from "@/components/ToolCard";
 import { useUser } from "@clerk/nextjs";
 import { redirect, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { Clock, FileText, Map, Mail } from "lucide-react";
+import { Clock, FileText, Map, Mail, Mic } from "lucide-react";
 
 const tools = [
   {
@@ -25,14 +25,30 @@ const tools = [
     icon: "/letter.png",
     path: "/dashboard/cover-letter-generator",
   },
+  {
+    name: "Mock Interview",
+    desc: "Practice with AI-powered mock interviews",
+    icon: "/interview.png",
+    path: "/dashboard/mock-interview",
+  },
 ];
 
 interface HistoryItem {
   id: string;
-  tool: "RESUME_ANALYZER" | "ROADMAP_GENERATOR" | "COVER_LETTER_GENERATOR";
+  tool:
+    | "RESUME_ANALYZER"
+    | "ROADMAP_GENERATOR"
+    | "COVER_LETTER_GENERATOR"
+    | "MOCK_INTERVIEW";
   input: any;
   output: any;
   createdAt: string;
+  interviewSession?: {
+    id: string;
+    jobRole: string;
+    overallScore: number;
+    status: string;
+  };
 }
 
 const Dashboard = () => {
@@ -69,8 +85,17 @@ const Dashboard = () => {
     }
   };
 
-  const handleHistoryClick = (historyId: string) => {
-    router.push(`/dashboard/history/${historyId}`);
+  const handleHistoryClick = (historyId: string, tool: string) => {
+    if (tool === "MOCK_INTERVIEW") {
+      const item = recentHistory.find((h) => h.id === historyId);
+      if (item?.interviewSession) {
+        router.push(
+          `/dashboard/mock-interview/result/${item.interviewSession.id}`
+        );
+      }
+    } else {
+      router.push(`/dashboard/history/${historyId}`);
+    }
   };
 
   const getToolIcon = (tool: string) => {
@@ -81,6 +106,8 @@ const Dashboard = () => {
         return <Map className="w-5 h-5 text-purple-600" />;
       case "COVER_LETTER_GENERATOR":
         return <Mail className="w-5 h-5 text-green-600" />;
+      case "MOCK_INTERVIEW":
+        return <Mic className="w-5 h-5 text-orange-600" />;
       default:
         return <FileText className="w-5 h-5 text-gray-600" />;
     }
@@ -94,6 +121,8 @@ const Dashboard = () => {
         return "Roadmap Generator";
       case "COVER_LETTER_GENERATOR":
         return "Cover Letter Generator";
+      case "MOCK_INTERVIEW":
+        return "Mock Interview";
       default:
         return tool;
     }
@@ -120,9 +149,39 @@ const Dashboard = () => {
         return `${item.input?.jobTitle || "Job"} at ${
           item.input?.companyName || "Company"
         }`;
+      case "MOCK_INTERVIEW":
+        return item.interviewSession
+          ? `${item.interviewSession.jobRole} - Score: ${
+              item.interviewSession.overallScore || "N/A"
+            }`
+          : "Mock Interview";
       default:
         return "Activity";
     }
+  };
+
+  const getStatusBadge = (item: HistoryItem) => {
+    if (item.tool === "MOCK_INTERVIEW" && item.interviewSession) {
+      const status = item.interviewSession.status;
+      const statusColors = {
+        PENDING: "bg-yellow-100 text-yellow-800",
+        IN_PROGRESS: "bg-blue-100 text-blue-800",
+        COMPLETED: "bg-green-100 text-green-800",
+        FAILED: "bg-red-100 text-red-800",
+        CANCELLED: "bg-gray-100 text-gray-800",
+      };
+
+      return (
+        <span
+          className={`px-2 py-1 rounded-full text-xs ${
+            statusColors[status as keyof typeof statusColors]
+          }`}
+        >
+          {status}
+        </span>
+      );
+    }
+    return null;
   };
 
   return (
@@ -135,7 +194,7 @@ const Dashboard = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-4">
           {tools.map((tool, index) => (
             <div key={index}>
               <ToolCard tool={tool} />
@@ -163,16 +222,19 @@ const Dashboard = () => {
               {recentHistory.map((item) => (
                 <div
                   key={item.id}
-                  onClick={() => handleHistoryClick(item.id)}
+                  onClick={() => handleHistoryClick(item.id, item.tool)}
                   className="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:shadow-md hover:border-blue-300 transition-all cursor-pointer"
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3">
                       {getToolIcon(item.tool)}
                       <div>
-                        <h3 className="font-medium text-gray-800">
-                          {getToolName(item.tool)}
-                        </h3>
+                        <div className="flex items-center gap-2">
+                          <h3 className="font-medium text-gray-800">
+                            {getToolName(item.tool)}
+                          </h3>
+                          {getStatusBadge(item)}
+                        </div>
                         <p className="text-sm text-gray-600">
                           {getPreviewText(item)}
                         </p>
