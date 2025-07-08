@@ -64,7 +64,6 @@ const MockInterviewPage = () => {
   const router = useRouter();
   const { user } = useUser();
 
-  // State management
   const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [messages, setMessages] = useState<SavedMessage[]>([]);
@@ -181,7 +180,6 @@ const MockInterviewPage = () => {
         body: JSON.stringify({
           transcript: messages,
           interviewId: interviewDetails?._id,
-          userId: interviewDetails?.userId,
         }),
       });
 
