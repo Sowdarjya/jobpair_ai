@@ -5,7 +5,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const { jobRole, jobDescription, level, type } = await req.json();
-  const { userId } = await auth();
+  const { userId, has } = await auth();
+
+  if (!has({ plan: "premium" })) {
+    return NextResponse.json({ error: "Upgrade required" }, { status: 403 });
+  }
 
   try {
     const questions = await generateQuestions(

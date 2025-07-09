@@ -176,9 +176,8 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-4 sm:py-6 lg:py-8 max-w-7xl">
-        {/* Welcome Header */}
-        <Card className="mb-6 sm:mb-8 overflow-hidden">
-          <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 text-white">
+        <Card className="mb-6 sm:mb-8 overflow-hidden bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800">
+          <div className=" text-white">
             <CardContent className="p-4 sm:p-6 lg:p-8">
               <div className="text-center">
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 sm:mb-4">

@@ -136,6 +136,10 @@ const MockInterview = () => {
         body: JSON.stringify(formData),
       });
 
+      if (!response.ok && response.status === 403) {
+        router.push("/pricing");
+      }
+
       if (!response.ok) {
         throw new Error("Failed to create interview");
       }

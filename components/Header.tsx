@@ -34,13 +34,10 @@ const Header = () => {
   const { user } = useUser();
   const [isOpen, setIsOpen] = useState(false);
 
-  const navigationItems = [
-    { href: "#features", label: "Features", icon: BarChart3 },
-    { href: "#pricing", label: "Pricing", icon: CreditCard },
-  ];
-
   const userNavigationItems = [
+    { href: "#features", label: "Features", icon: BarChart3 },
     { href: "/dashboard", label: "Dashboard", icon: Home },
+    { href: "/pricing", label: "Pricing", icon: CreditCard },
   ];
 
   return (
@@ -59,17 +56,6 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
-            {navigationItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-gray-600 hover:text-gray-900 font-medium transition-colors relative group"
-              >
-                {item.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300" />
-              </Link>
-            ))}
-
             {/* User-specific navigation when signed in */}
             <SignedIn>
               {userNavigationItems.map((item) => (
@@ -176,7 +162,7 @@ const Header = () => {
                   <div className="flex items-center justify-between pb-4 border-b">
                     <Link
                       href="/"
-                      className="flex items-center space-x-2"
+                      className="flex items-center space-x-2 m-4"
                       onClick={() => setIsOpen(false)}
                     >
                       <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
@@ -190,21 +176,6 @@ const Header = () => {
 
                   <nav className="flex-1 py-6">
                     <div className="space-y-1">
-                      {navigationItems.map((item) => {
-                        const IconComponent = item.icon;
-                        return (
-                          <Link
-                            key={item.href}
-                            href={item.href}
-                            className="flex items-center space-x-3 px-3 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
-                            onClick={() => setIsOpen(false)}
-                          >
-                            <IconComponent className="h-5 w-5" />
-                            <span className="font-medium">{item.label}</span>
-                          </Link>
-                        );
-                      })}
-
                       <SignedIn>
                         <div className="pt-4 border-t">
                           <p className="px-3 py-2 text-sm font-medium text-gray-500 uppercase tracking-wider">
