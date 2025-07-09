@@ -48,13 +48,9 @@ export const generateInterviewFeedback = async (
     ],
   });
 
-  console.log(res);
-
   const candidateText = res?.candidates?.[0]?.content?.parts?.[0]?.text;
   const rawJson = candidateText?.replace("```json", "").replace("```", "");
   const parsedJson = JSON.parse(rawJson!);
-
-  console.log(parsedJson);
 
   return parsedJson;
 };

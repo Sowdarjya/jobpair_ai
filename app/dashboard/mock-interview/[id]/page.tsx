@@ -42,7 +42,7 @@ interface SavedMessage {
 }
 
 interface InterviewDetails {
-  _id: string;
+  id: string;
   userId: string;
   jobRole: string;
   jobDescription: string;
@@ -179,13 +179,13 @@ const MockInterviewPage = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           transcript: messages,
-          interviewId: interviewDetails?._id,
+          interviewId: interviewDetails?.id,
         }),
       });
 
       const data = await res.json();
-      if (res.ok && data.feedbackId) {
-        router.push(`/interview/${id}/feedback`);
+      if (res.ok && data.feedback) {
+        router.push(`/dashboard/mock-interview/${id}/feedback`);
       } else {
         throw new Error("Failed to generate feedback");
       }
@@ -213,6 +213,7 @@ const MockInterviewPage = () => {
     try {
       await vapi.start(interviewer, {
         variableValues: {
+          username: user?.firstName,
           questions: formattedQuestions,
         },
       });
@@ -384,8 +385,12 @@ const MockInterviewPage = () => {
                       case CallStatus.INACTIVE:
                       case CallStatus.ERROR:
                         return (
-                          <Button onClick={handleCall} size="lg">
-                            <Phone className="h-4 w-4 mr-2" />
+                          <Button
+                            onClick={handleCall}
+                            size="lg"
+                            className="hover:cursor-pointer"
+                          >
+                            <Phone className="h-4 w-4 mr-2 " />
                             Start Interview
                           </Button>
                         );
@@ -402,6 +407,7 @@ const MockInterviewPage = () => {
                             onClick={handleDisconnect}
                             variant="destructive"
                             size="lg"
+                            className="hover:cursor-pointer"
                           >
                             <PhoneOff className="h-4 w-4 mr-2" />
                             End Interview

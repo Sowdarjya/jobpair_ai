@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
       data: {
         userId: userId ?? "",
         tool: "MOCK_INTERVIEW",
-        input: answers,
+        input: [interviewDetails, answers],
         output: generatedFeedback,
       },
     });

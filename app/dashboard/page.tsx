@@ -43,12 +43,6 @@ interface HistoryItem {
   input: any;
   output: any;
   createdAt: string;
-  interviewSession?: {
-    id: string;
-    jobRole: string;
-    overallScore: number;
-    status: string;
-  };
 }
 
 const Dashboard = () => {
@@ -85,13 +79,12 @@ const Dashboard = () => {
     }
   };
 
-  const handleHistoryClick = (historyId: string, tool: string) => {
+  const handleHistoryClick = (historyId: string, tool: string, input: any) => {
     if (tool === "MOCK_INTERVIEW") {
-      const item = recentHistory.find((h) => h.id === historyId);
-      if (item?.interviewSession) {
-        router.push(
-          `/dashboard/mock-interview/result/${item.interviewSession.id}`
-        );
+      const mockInterviewId =
+        Array.isArray(input) && input.length > 0 ? input[0].id : null;
+      if (mockInterviewId) {
+        router.push(`/dashboard/mock-interview/${mockInterviewId}/feedback`);
       }
     } else {
       router.push(`/dashboard/history/${historyId}`);
@@ -150,34 +143,19 @@ const Dashboard = () => {
           item.input?.companyName || "Company"
         }`;
       case "MOCK_INTERVIEW":
-        return item.interviewSession
-          ? `${item.interviewSession.jobRole} - Score: ${
-              item.interviewSession.overallScore || "N/A"
-            }`
-          : "Mock Interview";
+        const meta = Array.isArray(item.input) ? item.input[0] : {};
+        const score = item.output?.Overall_Score || "N/A";
+        return `${meta?.jobRole || "Mock Interview"} - Score: ${score}`;
       default:
         return "Activity";
     }
   };
 
   const getStatusBadge = (item: HistoryItem) => {
-    if (item.tool === "MOCK_INTERVIEW" && item.interviewSession) {
-      const status = item.interviewSession.status;
-      const statusColors = {
-        PENDING: "bg-yellow-100 text-yellow-800",
-        IN_PROGRESS: "bg-blue-100 text-blue-800",
-        COMPLETED: "bg-green-100 text-green-800",
-        FAILED: "bg-red-100 text-red-800",
-        CANCELLED: "bg-gray-100 text-gray-800",
-      };
-
+    if (item.tool === "MOCK_INTERVIEW") {
       return (
-        <span
-          className={`px-2 py-1 rounded-full text-xs ${
-            statusColors[status as keyof typeof statusColors]
-          }`}
-        >
-          {status}
+        <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">
+          Completed
         </span>
       );
     }
@@ -222,7 +200,9 @@ const Dashboard = () => {
               {recentHistory.map((item) => (
                 <div
                   key={item.id}
-                  onClick={() => handleHistoryClick(item.id, item.tool)}
+                  onClick={() =>
+                    handleHistoryClick(item.id, item.tool, item.input)
+                  }
                   className="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:shadow-md hover:border-blue-300 transition-all cursor-pointer"
                 >
                   <div className="flex items-start justify-between">

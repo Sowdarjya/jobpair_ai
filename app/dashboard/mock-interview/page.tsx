@@ -204,7 +204,7 @@ const MockInterview = () => {
             <div className="flex gap-3">
               <Button
                 onClick={handleStartInterview}
-                className="flex-1"
+                className="flex-1 hover:cursor-pointer"
                 size="lg"
               >
                 <Video className="h-4 w-4 mr-2" />
@@ -324,7 +324,7 @@ const MockInterview = () => {
 
             <Button
               type="submit"
-              className="w-full"
+              className="w-full hover:cursor-pointer "
               size="lg"
               disabled={loading}
             >
