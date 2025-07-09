@@ -32,6 +32,7 @@ import {
   FileText,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useUser } from "@clerk/nextjs";
 
 interface InterviewData {
   id: string;
@@ -55,6 +56,11 @@ const MockInterview = () => {
   const [error, setError] = useState<string | null>(null);
   const [createdInterview, setCreatedInterview] =
     useState<InterviewData | null>(null);
+  const { user } = useUser();
+
+  if (!user) {
+    router.back();
+  }
 
   const levels = [
     {

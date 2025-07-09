@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Loader2, Map, Clock, BookOpen, Target, Lightbulb } from "lucide-react";
 import RoadmapFlow from "@/components/RoadmapFlow";
 import { useRouter } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
 
 interface RoadmapData {
   roadmapTitle: string;
@@ -23,6 +24,11 @@ export default function RoadmapGenerator() {
   const [roadmap, setRoadmap] = useState<RoadmapData | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { user } = useUser();
+
+  if (!user) {
+    router.back();
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

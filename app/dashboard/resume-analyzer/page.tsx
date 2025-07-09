@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { File } from "lucide-react";
 import ResumeAnalysisDisplay from "@/components/ResumeAnalysisDisplay";
 import { useRouter } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
 
 export default function ResumeAnalyzer() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -13,6 +14,11 @@ export default function ResumeAnalyzer() {
   const [showAnalysis, setShowAnalysis] = useState(false);
   const [analysisData, setAnalysisData] = useState<any>(null);
   const router = useRouter();
+  const { user } = useUser();
+
+  if (!user) {
+    router.back();
+  }
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];

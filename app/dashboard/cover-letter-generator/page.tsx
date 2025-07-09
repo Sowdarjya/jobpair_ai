@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import CoverLetterDisplay from "@/components/CoverLetterDisplay";
 import { useRouter } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
 
 interface CoverLetterResponse {
   coverLetter: {
@@ -51,6 +52,11 @@ export default function CoverLetterGenerator() {
   const [result, setResult] = useState<CoverLetterResponse | null>(null);
   const [dragActive, setDragActive] = useState(false);
   const router = useRouter();
+  const { user } = useUser();
+
+  if (!user) {
+    router.back();
+  }
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
