@@ -3,13 +3,6 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Button } from "./ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import {
   SignedIn,
@@ -19,16 +12,7 @@ import {
   UserButton,
   useUser,
 } from "@clerk/nextjs";
-import {
-  Brain,
-  Menu,
-  User,
-  Settings,
-  LogOut,
-  Home,
-  BarChart3,
-  CreditCard,
-} from "lucide-react";
+import { Brain, Menu, User, Home, BarChart3, CreditCard } from "lucide-react";
 
 const Header = () => {
   const { user } = useUser();
@@ -74,69 +58,30 @@ const Header = () => {
           {/* Desktop Auth */}
           <div className="hidden lg:flex items-center space-x-4">
             <SignedIn>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="relative h-10 w-10 rounded-full"
-                  >
-                    <UserButton
-                      appearance={{
-                        elements: {
-                          avatarBox: "w-10 h-10",
-                        },
-                      }}
-                    />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="end" forceMount>
-                  <div className="flex items-center justify-start gap-2 p-2">
-                    <div className="flex flex-col space-y-1 leading-none">
-                      {user?.firstName && (
-                        <p className="font-medium">
-                          {user.firstName} {user.lastName}
-                        </p>
-                      )}
-                      {user?.primaryEmailAddress && (
-                        <p className="w-[200px] truncate text-sm text-muted-foreground">
-                          {user.primaryEmailAddress.emailAddress}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <Link href="/dashboard" className="flex items-center">
-                      <Home className="mr-2 h-4 w-4" />
-                      Dashboard
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link
-                      href="/dashboard/settings"
-                      className="flex items-center"
-                    >
-                      <Settings className="mr-2 h-4 w-4" />
-                      Settings
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem className="text-red-600 focus:text-red-600">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Sign out
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <UserButton
+                appearance={{
+                  elements: {
+                    avatarBox: "w-10 h-10",
+                  },
+                }}
+                userProfileProps={{
+                  appearance: {
+                    elements: {
+                      rootBox: "w-full max-w-md",
+                    },
+                  },
+                }}
+              />
             </SignedIn>
 
             <SignedOut>
               <div className="flex items-center space-x-3">
-                <SignInButton mode="modal">
+                <SignInButton>
                   <Button variant="ghost" className="font-medium">
                     Sign In
                   </Button>
                 </SignInButton>
-                <SignUpButton mode="modal">
+                <SignUpButton>
                   <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 font-medium shadow-lg hover:shadow-xl transition-all">
                     Get Started
                   </Button>
@@ -159,10 +104,10 @@ const Header = () => {
               </SheetTrigger>
               <SheetContent side="right" className="w-80">
                 <div className="flex flex-col h-full">
-                  <div className="flex items-center justify-between pb-4 border-b">
+                  <div className="flex items-center justify-between pb-4 border-b m-4">
                     <Link
                       href="/"
-                      className="flex items-center space-x-2 m-4"
+                      className="flex items-center space-x-2"
                       onClick={() => setIsOpen(false)}
                     >
                       <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
@@ -227,20 +172,12 @@ const Header = () => {
                             )}
                           </div>
                         </div>
-                        <Button
-                          variant="outline"
-                          className="w-full justify-start text-red-600 border-red-200 hover:bg-red-50 bg-transparent"
-                          onClick={() => setIsOpen(false)}
-                        >
-                          <LogOut className="mr-2 h-4 w-4" />
-                          Sign Out
-                        </Button>
                       </div>
                     </SignedIn>
 
                     <SignedOut>
                       <div className="space-y-3">
-                        <SignInButton mode="modal">
+                        <SignInButton>
                           <Button
                             variant="outline"
                             className="w-full bg-transparent"
@@ -250,7 +187,7 @@ const Header = () => {
                             Sign In
                           </Button>
                         </SignInButton>
-                        <SignUpButton mode="modal">
+                        <SignUpButton>
                           <Button
                             className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
                             onClick={() => setIsOpen(false)}
