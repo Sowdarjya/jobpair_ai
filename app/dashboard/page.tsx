@@ -3,8 +3,20 @@
 import ToolCard from "@/components/ToolCard";
 import { useUser } from "@clerk/nextjs";
 import { redirect, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import { Clock, FileText, Map, Mail, Mic } from "lucide-react";
+import { useEffect, useState } from "react";
+import {
+  Clock,
+  FileText,
+  Map,
+  Mail,
+  Mic,
+  Activity,
+  TrendingUp,
+} from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 
 const tools = [
   {
@@ -67,7 +79,6 @@ const Dashboard = () => {
           "Content-Type": "application/json",
         },
       });
-
       if (response.ok) {
         const data = await response.json();
         setRecentHistory(data.history || []);
@@ -94,15 +105,15 @@ const Dashboard = () => {
   const getToolIcon = (tool: string) => {
     switch (tool) {
       case "RESUME_ANALYZER":
-        return <FileText className="w-5 h-5 text-blue-600" />;
+        return <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />;
       case "ROADMAP_GENERATOR":
-        return <Map className="w-5 h-5 text-purple-600" />;
+        return <Map className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600" />;
       case "COVER_LETTER_GENERATOR":
-        return <Mail className="w-5 h-5 text-green-600" />;
+        return <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />;
       case "MOCK_INTERVIEW":
-        return <Mic className="w-5 h-5 text-orange-600" />;
+        return <Mic className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600" />;
       default:
-        return <FileText className="w-5 h-5 text-gray-600" />;
+        return <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />;
     }
   };
 
@@ -154,89 +165,142 @@ const Dashboard = () => {
   const getStatusBadge = (item: HistoryItem) => {
     if (item.tool === "MOCK_INTERVIEW") {
       return (
-        <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">
+        <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
           Completed
-        </span>
+        </Badge>
       );
     }
     return null;
   };
 
   return (
-    <div className="min-h-screen w-full">
-      <div className="my-7 w-6xl mx-auto border bg-white p-5 rounded-xl">
-        <div className="text-center bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 rounded-2xl p-4 text-white">
-          <h1 className="text-3xl font-bold">Welcome to your dashboard</h1>
-          <p className="mt-5 text-xl font-medium">
-            Select the AI tool you like to use
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-4">
-          {tools.map((tool, index) => (
-            <div key={index}>
-              <ToolCard tool={tool} />
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-8 mb-6">
-          <div className="flex items-center gap-2 mb-4">
-            <Clock className="w-5 h-5 text-gray-600" />
-            <h2 className="text-xl font-semibold text-gray-800">
-              Recent Activity
-            </h2>
-          </div>
-
-          {loading ? (
-            <div className="bg-gray-50 rounded-lg p-4">
-              <div className="animate-pulse">
-                <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-                <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto px-4 py-4 sm:py-6 lg:py-8 max-w-7xl">
+        {/* Welcome Header */}
+        <Card className="mb-6 sm:mb-8 overflow-hidden">
+          <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 text-white">
+            <CardContent className="p-4 sm:p-6 lg:p-8">
+              <div className="text-center">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 sm:mb-4">
+                  Welcome back, {user?.firstName || "User"}!
+                </h1>
+                <p className="text-base sm:text-lg lg:text-xl font-medium opacity-90">
+                  Select an AI tool to get started with your career journey
+                </p>
               </div>
-            </div>
-          ) : recentHistory.length > 0 ? (
-            <div className="space-y-3">
-              {recentHistory.map((item) => (
-                <div
-                  key={item.id}
-                  onClick={() =>
-                    handleHistoryClick(item.id, item.tool, item.input)
-                  }
-                  className="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:shadow-md hover:border-blue-300 transition-all cursor-pointer"
-                >
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-3">
-                      {getToolIcon(item.tool)}
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <h3 className="font-medium text-gray-800">
-                            {getToolName(item.tool)}
-                          </h3>
-                          {getStatusBadge(item)}
+            </CardContent>
+          </div>
+        </Card>
+
+        {/* Tools Grid */}
+        <div className="mb-8 sm:mb-12">
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6 flex items-center gap-2">
+            <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6" />
+            AI Tools
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {tools.map((tool, index) => (
+              <div key={index} className="h-full">
+                <ToolCard tool={tool} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Recent Activity */}
+        <Card>
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+              <Clock className="w-5 h-5 text-gray-600" />
+              Recent Activity
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {loading ? (
+              <div className="space-y-3">
+                {[...Array(3)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center space-x-3 p-3 sm:p-4"
+                  >
+                    <Skeleton className="h-8 w-8 rounded" />
+                    <div className="space-y-2 flex-1">
+                      <Skeleton className="h-4 w-3/4" />
+                      <Skeleton className="h-3 w-1/2" />
+                    </div>
+                    <Skeleton className="h-3 w-16" />
+                  </div>
+                ))}
+              </div>
+            ) : recentHistory.length > 0 ? (
+              <div className="space-y-2 sm:space-y-3">
+                {recentHistory.slice(0, 5).map((item) => (
+                  <div
+                    key={item.id}
+                    onClick={() =>
+                      handleHistoryClick(item.id, item.tool, item.input)
+                    }
+                    className="group p-3 sm:p-4 rounded-lg border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all cursor-pointer bg-white"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex items-start gap-3 min-w-0 flex-1">
+                        <div className="flex-shrink-0 mt-0.5">
+                          {getToolIcon(item.tool)}
                         </div>
-                        <p className="text-sm text-gray-600">
-                          {getPreviewText(item)}
-                        </p>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-2 mb-1 flex-wrap">
+                            <h3 className="font-medium text-gray-800 text-sm sm:text-base">
+                              {getToolName(item.tool)}
+                            </h3>
+                            {getStatusBadge(item)}
+                          </div>
+                          <p className="text-xs sm:text-sm text-gray-600 line-clamp-2 break-words">
+                            {getPreviewText(item)}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex-shrink-0">
+                        <span className="text-xs text-gray-500 whitespace-nowrap">
+                          {formatDate(item.createdAt)}
+                        </span>
                       </div>
                     </div>
-                    <span className="text-xs text-gray-500">
-                      {formatDate(item.createdAt)}
-                    </span>
                   </div>
+                ))}
+                {recentHistory.length > 5 && (
+                  <div className="pt-4 text-center">
+                    <Button
+                      variant="outline"
+                      onClick={() => router.push("/dashboard/history")}
+                      className="w-full sm:w-auto"
+                    >
+                      View All Activity
+                    </Button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="text-center py-8 sm:py-12">
+                <div className="mx-auto w-16 h-16 sm:w-20 sm:h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                  <Activity className="w-8 h-8 sm:w-10 sm:h-10 text-gray-400" />
                 </div>
-              ))}
-            </div>
-          ) : (
-            <div className="bg-gray-50 rounded-lg p-6 text-center">
-              <Clock className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-              <p className="text-gray-500">No recent activity yet</p>
-              <p className="text-sm text-gray-400 mt-1">
-                Start using the tools below to see your activity here
-              </p>
-            </div>
-          )}
-        </div>
+                <h3 className="text-lg sm:text-xl font-medium text-gray-800 mb-2">
+                  No recent activity
+                </h3>
+                <p className="text-sm sm:text-base text-gray-500 mb-4 max-w-md mx-auto">
+                  Start using our AI tools to analyze resumes, generate
+                  roadmaps, create cover letters, or practice interviews
+                </p>
+                <Button
+                  onClick={() => router.push("/dashboard/resume-analyzer")}
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                >
+                  Get Started
+                </Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
