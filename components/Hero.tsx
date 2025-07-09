@@ -13,7 +13,7 @@ const Hero = () => {
         <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent">
           Land Your Dream Job with AI Resume Analysis
         </h1>
-        <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+        <p className="text-base sm:text-xl text-gray-600 mb-8 leading-relaxed">
           Upload your resume, match it with job descriptions, and get AI-powered
           insights to boost your chances by up to 300%
         </p>

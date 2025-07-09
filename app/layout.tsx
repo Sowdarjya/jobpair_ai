@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   title: "JobPair AI",
   description: "Get your dream job with JobPair AI",
   icons: {
-    icon: "../public/ai-avatar.png",
+    icon: "/interview.png",
   },
 };
 

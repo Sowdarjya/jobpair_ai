@@ -26,9 +26,8 @@ const Header = () => {
 
   return (
     <header className="border-b bg-white/95 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
-      <div className="container mx-auto px-4 py-3">
+      <div className="w-full max-w-7xl mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
-          {/* Logo */}
           <Link href="/" className="flex items-center space-x-3 group">
             <div className="w-9 h-9 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow">
               <Brain className="w-5 h-5 text-white" />
@@ -38,15 +37,13 @@ const Header = () => {
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
-            {/* User-specific navigation when signed in */}
             <SignedIn>
               {userNavigationItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="text-gray-600 hover:text-gray-900 font-medium transition-colors relative group"
+                  className="text-gray-600 hover:text-gray-900 font-medium transition-colors relative group text-sm sm:text-base"
                 >
                   {item.label}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300" />
@@ -55,7 +52,6 @@ const Header = () => {
             </SignedIn>
           </nav>
 
-          {/* Desktop Auth */}
           <div className="hidden lg:flex items-center space-x-4">
             <SignedIn>
               <UserButton
@@ -102,7 +98,7 @@ const Header = () => {
                   <span className="sr-only">Toggle menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-80">
+              <SheetContent side="right" className="w-80 px-4 sm:px-6">
                 <div className="flex flex-col h-full">
                   <div className="flex items-center justify-between pb-4 border-b m-4">
                     <Link
@@ -120,7 +116,7 @@ const Header = () => {
                   </div>
 
                   <nav className="flex-1 py-6">
-                    <div className="space-y-1">
+                    <div className="space-y-2 px-2">
                       <SignedIn>
                         <div className="pt-4 border-t">
                           <p className="px-3 py-2 text-sm font-medium text-gray-500 uppercase tracking-wider">
@@ -132,7 +128,7 @@ const Header = () => {
                               <Link
                                 key={item.href}
                                 href={item.href}
-                                className="flex items-center space-x-3 px-3 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+                                className="flex items-center space-x-3 px-3 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors text-sm sm:text-base"
                                 onClick={() => setIsOpen(false)}
                               >
                                 <IconComponent className="h-5 w-5" />
@@ -147,7 +143,6 @@ const Header = () => {
                     </div>
                   </nav>
 
-                  {/* Mobile Auth */}
                   <div className="border-t pt-4">
                     <SignedIn>
                       <div className="space-y-3">
