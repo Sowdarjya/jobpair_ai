@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, Map, Clock, BookOpen, Target, Lightbulb } from "lucide-react";
 import RoadmapFlow from "@/components/RoadmapFlow";
+import { useRouter } from "next/navigation";
 
 interface RoadmapData {
   roadmapTitle: string;
@@ -21,6 +22,7 @@ export default function RoadmapGenerator() {
   const [userInput, setUserInput] = useState("");
   const [roadmap, setRoadmap] = useState<RoadmapData | null>(null);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,6 +37,11 @@ export default function RoadmapGenerator() {
         },
         body: JSON.stringify({ userInput }),
       });
+
+      if (!res.ok && res.status === 403) {
+        router.push("/pricing");
+      }
+
       const data = await res.json();
       setRoadmap(data);
     } catch (error) {

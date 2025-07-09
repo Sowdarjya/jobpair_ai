@@ -25,6 +25,7 @@ import {
   Ruler,
 } from "lucide-react";
 import CoverLetterDisplay from "@/components/CoverLetterDisplay";
+import { useRouter } from "next/navigation";
 
 interface CoverLetterResponse {
   coverLetter: {
@@ -49,6 +50,7 @@ export default function CoverLetterGenerator() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<CoverLetterResponse | null>(null);
   const [dragActive, setDragActive] = useState(false);
+  const router = useRouter();
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -107,6 +109,10 @@ export default function CoverLetterGenerator() {
         method: "POST",
         body: submitFormData,
       });
+
+      if (!response.ok && response.status === 403) {
+        router.push("/pricing");
+      }
 
       const data = await response.json();
       if (response.ok) {

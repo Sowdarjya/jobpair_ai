@@ -7,9 +7,21 @@ import prisma from "@/lib/prisma";
 
 export async function POST(req: NextRequest) {
   try {
-    const { userId } = await auth(); // Clerk user ID
+    const { userId, has } = await auth();
     if (!userId) {
       return new Response("Unauthorized", { status: 401 });
+    }
+
+    const TOOL_NAME = "RESUME_ANALYZER";
+    const toolUsageCount = await prisma.userHistory.count({
+      where: {
+        userId,
+        tool: TOOL_NAME,
+      },
+    });
+
+    if (!has({ plan: "premium" }) && toolUsageCount >= 5) {
+      return new Response("Upgrade required", { status: 403 });
     }
 
     const formData = await req.formData();

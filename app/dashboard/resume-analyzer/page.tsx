@@ -5,12 +5,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { File } from "lucide-react";
 import ResumeAnalysisDisplay from "@/components/ResumeAnalysisDisplay";
+import { useRouter } from "next/navigation";
 
 export default function ResumeAnalyzer() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [showAnalysis, setShowAnalysis] = useState(false);
   const [analysisData, setAnalysisData] = useState<any>(null);
+  const router = useRouter();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -32,6 +34,10 @@ export default function ResumeAnalyzer() {
         method: "POST",
         body: formData,
       });
+
+      if (!response.ok && response.status === 403) {
+        router.push("/pricing");
+      }
       const data = await response.json();
       setAnalysisData(data.analysis);
       setShowAnalysis(true);
