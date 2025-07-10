@@ -1,36 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# JobPair AI
+
+A comprehensive AI-powered career development platform designed to assist users in various aspects of their professional growth. The platform offers a range of intelligent tools and features to help users analyze their resumes, generate career roadmaps, create effective cover letters, and practice with mock interviews.
+
+## Features
+
+### 🔍 Resume Analyzer
+
+Upload your resume and receive detailed analysis and insights to improve its effectiveness. Get actionable feedback on content, structure, and formatting.
+
+### 🗺️ Roadmap Generator
+
+Create a personalized roadmap for your career, highlighting key milestones and goals. Plan your professional journey with AI-guided recommendations.
+
+### 📝 Cover Letter Generator
+
+Generate well-structured and effective cover letters tailored to your job applications. Customize content based on job descriptions and your experience.
+
+### 🎤 Mock Interview
+
+Practice your interview skills with AI-powered mock interviews. Receive detailed feedback and suggestions for improvement to boost your confidence.
+
+### 📊 History
+
+View your past activities and progress on the platform. Track your career development journey and revisit previous analyses.
+
+## Tech Stack
+
+- **Frontend**: Next.js, React
+- **Styling**: Tailwind CSS
+- **UI Components**: shadcn/ui
+- **Authentication**: Clerk
+- **Payments**: Clerk Billing
+- **Database**: Prisma ORM
+- **PDF Processing**: WebPDFLoader
+- **File Upload**: ImageKit
+- **AI Integration**: Gemini API
+- **Webhooks**: Svix
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js (v18 or higher)
+- npm or yarn
+- Database (PostgreSQL recommended)
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/Sowdarjya/jobpair_ai.git
+cd jobpair-ai
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Set up environment variables:
+
+```bash
+cp .env.example .env.local
+```
+
+Fill in the required environment variables:
+
+- Database connection string
+- Clerk authentication keys
+- Clerk billing configuration
+- Gemini API key
+- ImageKit configuration (public key, private key, URL endpoint)
+
+4. Set up the database:
+
+```bash
+npx prisma generate
+npx prisma db push
+```
+
+5. Run the development server:
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+6. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Usage
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Sign up/Login**: Create an account using Clerk authentication
+2. **Choose Plan**: Select a subscription plan through Clerk Billing
+3. **Upload Resume**: Navigate to the Resume Analyzer and upload your PDF resume
+4. **Generate Roadmap**: Use the Roadmap Generator to create your career plan
+5. **Create Cover Letters**: Generate tailored cover letters for job applications
+6. **Practice Interviews**: Use the Mock Interview feature to improve your skills
+7. **Track Progress**: View your history to monitor your career development journey
