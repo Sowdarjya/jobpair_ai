@@ -72,7 +72,7 @@ const Header = () => {
 
             <SignedOut>
               <div className="flex items-center space-x-3">
-                <SignInButton>
+                <SignInButton mode="modal">
                   <Button
                     variant="ghost"
                     className="font-medium hover:cursor-pointer "
@@ -80,7 +80,7 @@ const Header = () => {
                     Sign In
                   </Button>
                 </SignInButton>
-                <SignUpButton>
+                <SignUpButton mode="modal">
                   <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 font-medium shadow-lg hover:shadow-xl transition-all hover:cursor-pointer">
                     Get Started
                   </Button>
