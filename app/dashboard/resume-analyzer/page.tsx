@@ -62,7 +62,7 @@ export default function ResumeAnalyzer() {
       setAnalysisData(data.analysis);
       setShowAnalysis(true);
     } catch (error) {
-      alert("Failed to analyze resume. Please try again.");
+      console.error("Error analyzing resume:", error);
     }
     setLoading(false);
   };
