@@ -19,7 +19,7 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const userNavigationItems = [
-    { href: "#features", label: "Features", icon: BarChart3 },
+    { href: "/#features", label: "Features", icon: BarChart3 },
     { href: "/dashboard", label: "Dashboard", icon: Home },
     { href: "/pricing", label: "Pricing", icon: CreditCard },
   ];
@@ -73,12 +73,15 @@ const Header = () => {
             <SignedOut>
               <div className="flex items-center space-x-3">
                 <SignInButton>
-                  <Button variant="ghost" className="font-medium">
+                  <Button
+                    variant="ghost"
+                    className="font-medium hover:cursor-pointer "
+                  >
                     Sign In
                   </Button>
                 </SignInButton>
                 <SignUpButton>
-                  <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 font-medium shadow-lg hover:shadow-xl transition-all">
+                  <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 font-medium shadow-lg hover:shadow-xl transition-all hover:cursor-pointer">
                     Get Started
                   </Button>
                 </SignUpButton>
