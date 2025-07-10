@@ -1,47 +1,36 @@
+import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";
-import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ): Promise<NextResponse> {
-  try {
-    const { userId } = await auth();
+  const resolved = await params;
+  const { id } = resolved;
 
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+  const { userId } = await auth();
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
-    const { id } = params;
+  const historyItem = await prisma.userHistory.findFirst({
+    where: { id, userId },
+    select: {
+      id: true,
+      tool: true,
+      input: true,
+      output: true,
+      createdAt: true,
+    },
+  });
 
-    const historyItem = await prisma.userHistory.findFirst({
-      where: {
-        id: id,
-        userId: userId,
-      },
-      select: {
-        id: true,
-        tool: true,
-        input: true,
-        output: true,
-        createdAt: true,
-      },
-    });
-
-    if (!historyItem) {
-      return NextResponse.json(
-        { error: "History item not found" },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json({ history: historyItem }, { status: 200 });
-  } catch (error) {
-    console.error("[HISTORY_DETAIL_GET_ERROR]", error);
+  if (!historyItem) {
     return NextResponse.json(
-      { error: "Failed to fetch history detail" },
-      { status: 500 }
+      { error: "History item not found" },
+      { status: 404 }
     );
   }
+
+  return NextResponse.json({ history: historyItem }, { status: 200 });
 }
