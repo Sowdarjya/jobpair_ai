@@ -1,9 +1,14 @@
+"use client";
+
 import { ArrowRight } from "lucide-react";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { Badge } from "./ui/badge";
+import { SignInButton, useUser } from "@clerk/nextjs";
 
 const Hero = () => {
+  const { user } = useUser();
+
   return (
     <section className="py-20 px-4">
       <div className="container mx-auto text-center max-w-4xl">
@@ -18,15 +23,25 @@ const Hero = () => {
           insights to boost your chances by up to 300%
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-          <Button
-            size="lg"
-            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-            asChild
-          >
-            <Link href="/dashboard">
-              Start Analyzing <ArrowRight className="ml-2 w-4 h-4" />
-            </Link>
-          </Button>
+          {user ? (
+            <Button
+              size="lg"
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+              asChild
+            >
+              <Link href="/dashboard">
+                Start Analyzing <ArrowRight className="ml-2 w-4 h-4" />
+              </Link>
+            </Button>
+          ) : (
+            <Button
+              size="lg"
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 hover:cursor-pointer"
+              asChild
+            >
+              <SignInButton mode="modal">Get started</SignInButton>
+            </Button>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
