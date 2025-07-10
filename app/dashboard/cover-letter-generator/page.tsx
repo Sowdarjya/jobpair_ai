@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -51,11 +51,38 @@ export default function CoverLetterGenerator() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<CoverLetterResponse | null>(null);
   const [dragActive, setDragActive] = useState(false);
+  const [isClient, setIsClient] = useState(false);
   const router = useRouter();
-  const { user } = useUser();
+  const { user, isLoaded } = useUser();
 
+  // Ensure we're on the client side before doing any navigation
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Handle user authentication check only on client side
+  useEffect(() => {
+    if (isClient && isLoaded && !user) {
+      router.back();
+    }
+  }, [isClient, isLoaded, user, router]);
+
+  // Don't render anything until we're on the client and user is loaded
+  if (!isClient || !isLoaded) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin" />
+      </div>
+    );
+  }
+
+  // If user is not authenticated, show loading or redirect
   if (!user) {
-    router.back();
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin" />
+      </div>
+    );
   }
 
   const handleInputChange = (field: string, value: string) => {
@@ -118,6 +145,7 @@ export default function CoverLetterGenerator() {
 
       if (!response.ok && response.status === 403) {
         router.push("/pricing");
+        return;
       }
 
       const data = await response.json();
@@ -128,8 +156,9 @@ export default function CoverLetterGenerator() {
       }
     } catch (error) {
       console.error("Error generating cover letter:", error);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const handleReset = () => {
