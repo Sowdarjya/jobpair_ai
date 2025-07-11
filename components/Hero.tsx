@@ -16,11 +16,12 @@ const Hero = () => {
           🚀 AI-Powered Career Optimization
         </Badge>
         <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent">
-          Land Your Dream Job with AI Resume Analysis
+          Land Your Dream Job with JobPair AI
         </h1>
         <p className="text-base sm:text-xl text-gray-600 mb-8 leading-relaxed">
-          Upload your resume, match it with job descriptions, and get AI-powered
-          insights to boost your chances by up to 300%
+          Join thousands of job seekers who have improved their interview rates
+          with AI-powered resume optimization, roadmap generation, cover letter
+          writing, and mock interviews.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
           {user ? (
