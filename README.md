@@ -1,104 +1,87 @@
-# JobPair AI
+<div class="border border-border rounded-lg bg-background p-6 shadow-sm"><div class="prose prose-sm md:prose-base lg:prose-lg max-w-none prose-headings:font-bold prose-a:text-blue-600" style="user-select: none;"><div id="top" class="">
 
-A comprehensive AI-powered career development platform designed to assist users in various aspects of their professional growth. The platform offers a range of intelligent tools and features to help users analyze their resumes, generate career roadmaps, create effective cover letters, and practice with mock interviews.
+<div align="center" class="text-center">
+<h1>JOBPAIR_AI</h1>
+<p><em>Empowering Careers with AI-Driven Success Strategies</em></p>
 
-## Features
-
-### 🔍 Resume Analyzer
-
-Upload your resume and receive detailed analysis and insights to improve its effectiveness. Get actionable feedback on content, structure, and formatting.
-
-### 🗺️ Roadmap Generator
-
-Create a personalized roadmap for your career, highlighting key milestones and goals. Plan your professional journey with AI-guided recommendations.
-
-### 📝 Cover Letter Generator
-
-Generate well-structured and effective cover letters tailored to your job applications. Customize content based on job descriptions and your experience.
-
-### 🎤 Mock Interview
-
-Practice your interview skills with AI-powered mock interviews. Receive detailed feedback and suggestions for improvement to boost your confidence.
-
-### 📊 History
-
-View your past activities and progress on the platform. Track your career development journey and revisit previous analyses.
-
-## Tech Stack
-
-- **Frontend**: Next.js, React
-- **Styling**: Tailwind CSS
-- **UI Components**: shadcn/ui
-- **Authentication**: Clerk
-- **Payments**: Clerk Billing
-- **Database**: Prisma ORM
-- **PDF Processing**: WebPDFLoader
-- **File Upload**: ImageKit
-- **AI Integration**: Gemini API
-- **Webhooks**: Svix
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js (v18 or higher)
-- npm or yarn
-- Database (PostgreSQL recommended)
-
-### Installation
-
-1. Clone the repository:
-
-```bash
-git clone https://github.com/Sowdarjya/jobpair_ai.git
-cd jobpair-ai
-```
-
-2. Install dependencies:
-
-```bash
-npm install
-# or
-yarn install
-```
-
-3. Set up environment variables:
-
-```bash
-cp .env.example .env.local
-```
-
-Fill in the required environment variables:
-
-- Database connection string
-- Clerk authentication keys
-- Clerk billing configuration
-- Gemini API key
-- ImageKit configuration (public key, private key, URL endpoint)
-
-4. Set up the database:
-
-```bash
-npx prisma generate
-npx prisma db push
-```
-
-5. Run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-6. Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-## Usage
-
-1. **Sign up/Login**: Create an account using Clerk authentication
-2. **Choose Plan**: Select a subscription plan through Clerk Billing
-3. **Upload Resume**: Navigate to the Resume Analyzer and upload your PDF resume
-4. **Generate Roadmap**: Use the Roadmap Generator to create your career plan
-5. **Create Cover Letters**: Generate tailored cover letters for job applications
-6. **Practice Interviews**: Use the Mock Interview feature to improve your skills
-7. **Track Progress**: View your history to monitor your career development journey
+<img alt="last-commit" src="https://img.shields.io/github/last-commit/Sowdarjya/jobpair_ai?style=flat&amp;logo=git&amp;logoColor=white&amp;color=0080ff" class="inline-block mx-1" style="margin: 0px 2px;">
+<img alt="repo-top-language" src="https://img.shields.io/github/languages/top/Sowdarjya/jobpair_ai?style=flat&amp;color=0080ff" class="inline-block mx-1" style="margin: 0px 2px;">
+<img alt="repo-language-count" src="https://img.shields.io/github/languages/count/Sowdarjya/jobpair_ai?style=flat&amp;color=0080ff" class="inline-block mx-1" style="margin: 0px 2px;">
+<p><em>Built with the tools and technologies:</em></p>
+<img alt="JSON" src="https://img.shields.io/badge/JSON-000000.svg?style=flat&amp;logo=JSON&amp;logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;">
+<img alt="Markdown" src="https://img.shields.io/badge/Markdown-000000.svg?style=flat&amp;logo=Markdown&amp;logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;">
+<img alt="npm" src="https://img.shields.io/badge/npm-CB3837.svg?style=flat&amp;logo=npm&amp;logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;">
+<img alt="JavaScript" src="https://img.shields.io/badge/JavaScript-F7DF1E.svg?style=flat&amp;logo=JavaScript&amp;logoColor=black" class="inline-block mx-1" style="margin: 0px 2px;">
+<img alt="React" src="https://img.shields.io/badge/React-61DAFB.svg?style=flat&amp;logo=React&amp;logoColor=black" class="inline-block mx-1" style="margin: 0px 2px;">
+<img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-3178C6.svg?style=flat&amp;logo=TypeScript&amp;logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;">
+<img alt="Prisma" src="https://img.shields.io/badge/Prisma-2D3748.svg?style=flat&amp;logo=Prisma&amp;logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;">
+<img alt="ESLint" src="https://img.shields.io/badge/ESLint-4B32C3.svg?style=flat&amp;logo=ESLint&amp;logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;">
+</div>
+<br>
+<hr>
+<h2>Table of Contents</h2>
+<ul class="list-disc pl-4 my-0">
+<li class="my-0"><a href="#overview">Overview</a></li>
+<li class="my-0"><a href="#getting-started">Getting Started</a>
+<ul class="list-disc pl-4 my-0">
+<li class="my-0"><a href="#prerequisites">Prerequisites</a></li>
+<li class="my-0"><a href="#installation">Installation</a></li>
+<li class="my-0"><a href="#usage">Usage</a></li>
+<li class="my-0"><a href="#testing">Testing</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2>Overview</h2>
+<p>Jobpair_ai is an AI-driven platform that empowers users to enhance their career prospects through intelligent resume analysis, personalized roadmaps, cover letter generation, and mock interviews. Designed with a scalable and maintainable architecture, it leverages modern frontend and backend technologies to deliver a seamless user experience.</p>
+<p><strong>Why Jobpair_ai?</strong></p>
+<p>This project combines a robust component architecture with AI-powered career tools to support professional growth. The core features include:</p>
+<ul class="list-disc pl-4 my-0">
+<li class="my-0">🧩 <strong>Component Architecture:</strong> Consistent styling and streamlined component referencing with Tailwind CSS and style guidelines.</li>
+<li class="my-0">🤖 <strong>AI-Powered Tools:</strong> Resume analysis, personalized roadmaps, cover letter creation, and interview simulations.</li>
+<li class="my-0">🔒 <strong>Secure Authentication:</strong> User session management and personalized data handling via Clerk and middleware.</li>
+<li class="my-0">⚙️ <strong>API Integrations:</strong> Endpoints for question generation, feedback, and content management.</li>
+<li class="my-0">💾 <strong>Data Persistence:</strong> Efficient database interactions with Prisma, supporting scalable data storage.</li>
+<li class="my-0">🎙️ <strong>Voice Interviewing:</strong> Real-time voice-based interview simulations with structured questioning.</li>
+</ul>
+<hr>
+<h2>Getting Started</h2>
+<h3>Prerequisites</h3>
+<p>This project requires the following dependencies:</p>
+<ul class="list-disc pl-4 my-0">
+<li class="my-0"><strong>Programming Language:</strong> TypeScript</li>
+<li class="my-0"><strong>Package Manager:</strong> Npm</li>
+</ul>
+<h3>Installation</h3>
+<p>Build jobpair_ai from the source and install dependencies:</p>
+<ol>
+<li class="my-0">
+<p><strong>Clone the repository:</strong></p>
+<pre><code class="language-sh">❯ git clone https://github.com/Sowdarjya/jobpair_ai
+</code></pre>
+</li>
+<li class="my-0">
+<p><strong>Navigate to the project directory:</strong></p>
+<pre><code class="language-sh">❯ cd jobpair_ai
+</code></pre>
+</li>
+<li class="my-0">
+<p><strong>Install the dependencies:</strong></p>
+</li>
+</ol>
+<p><strong>Using <a href="https://www.npmjs.com/">npm</a>:</strong></p>
+<pre><code class="language-sh">❯ npm install
+</code></pre>
+<h3>Usage</h3>
+<p>Run the project with:</p>
+<p><strong>Using <a href="https://www.npmjs.com/">npm</a>:</strong></p>
+<pre><code class="language-sh">npm start
+</code></pre>
+<h3>Testing</h3>
+<p>Jobpair_ai uses the {<strong>test_framework</strong>} test framework. Run the test suite with:</p>
+<p><strong>Using <a href="https://www.npmjs.com/">npm</a>:</strong></p>
+<pre><code class="language-sh">npm test
+</code></pre>
+<hr>
+<div align="left" class=""><a href="#top">⬆ Return</a></div>
+<hr></div></div></div>
